@@ -1,0 +1,59 @@
+//API Hub Request, Persist & Respond UI
+//IDentity Resolution form logic
+
+import React, { Component } from "react";
+import { AhRprIdrCriteriaForm } from "./AhRprIdrCriteriaForm"
+
+class AhRprIdrForm extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = JSON.parse(props.iniState);
+
+    //Handle events originating from the criteria form
+    this.handleCriteriaChange = this.handleCriteriaChange.bind(this);
+    this.handleCriteriaSubmit = this.handleCriteriaSubmit.bind(this);
+    this.handleCriteriaReset = this.handleCriteriaReset.bind(this);
+  }
+
+  handleCriteriaChange(event) {
+    const inpName = event.target.name;
+
+    event.persist(); //http://bit.ly/2StVoUa
+
+    this.setState((prevState, props) => {
+      return Object.assign(prevState.idrCriteria, { [inpName]: event.target.value });
+    });
+  }
+
+  handleCriteriaSubmit(event) {
+    let sAlert = "", obj = this.state.idrCriteria;
+
+    Object.keys(obj).forEach(key => {
+      sAlert +=  key + " = " + obj[key] + ", ";
+    });
+
+    alert(sAlert.substr(0, sAlert.length - 2));
+  
+    event.preventDefault();
+  }
+
+  handleCriteriaReset(event) {
+    this.setState(JSON.parse(this.props.iniState));
+
+    event.preventDefault();
+  }
+
+  render() {
+    return (
+      <AhRprIdrCriteriaForm
+        state={this.state.idrCriteria}
+        handleCriteriaChange={this.handleCriteriaChange}
+        handleCriteriaSubmit={this.handleCriteriaSubmit}
+        handleCriteriaReset={this.handleCriteriaReset}
+      />
+    );
+  }
+}
+
+export { AhRprIdrForm };
