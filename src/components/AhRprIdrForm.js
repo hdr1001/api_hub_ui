@@ -17,13 +17,14 @@ class AhRprIdrForm extends Component {
   }
 
   handleCriteriaChange(event) {
-    const inpName = event.target.name;
-
     event.persist(); //http://bit.ly/2StVoUa
 
-    this.setState((prevState, props) => {
-      return Object.assign(prevState.idrCriteria, { [inpName]: event.target.value });
-    });
+    this.setState(prevState => ({
+      idrCriteria: {
+        ...prevState.idrCriteria,
+        [event.target.name]: event.target.value
+      }
+    }));
   }
 
   handleCriteriaSubmit(event) {
